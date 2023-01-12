@@ -19,7 +19,10 @@ public class MainManager : MonoBehaviour
     private bool m_GameOver = false;
     private string text = "";
 
-    
+    private int hiscore;
+    public Text BestScoreText;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +43,12 @@ public class MainManager : MonoBehaviour
         if (DataManager.Instance != null)
         {
             text = DataManager.Instance.Name;
+
+            DataManager.Instance.LoadHiScore(out hiscore, out string name);
+            if (hiscore > 0)
+                BestScoreText.text = $"Best Score : {name}: {hiscore}";
+            else
+                BestScoreText.text = "";
         }
         ScoreText.text = $"{text} => Score : {m_Points}";
     }
@@ -61,6 +70,11 @@ public class MainManager : MonoBehaviour
         }
         else if (m_GameOver)
         {
+            if (DataManager.Instance != null)
+            {
+                if (m_Points > hiscore)
+                    DataManager.Instance.SaveHiScore(m_Points);
+            }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);

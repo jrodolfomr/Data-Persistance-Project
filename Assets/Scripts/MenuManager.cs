@@ -16,11 +16,14 @@ public class MenuManager : MonoBehaviour
         btn.onClick.AddListener(ChangeScene);
         Debug.Log("loaded menu");
     }
- 
+
     void ChangeScene()
     {
-        Debug.Log("loading new scene: "+ NameText.text);
-        DataManager.Instance.Name = NameText.text;
-        SceneManager.LoadScene("main",LoadSceneMode.Single);
+        Debug.Log("loading new scene: " + NameText.text);
+        if (NameText.text != "") { 
+
+            DataManager.Instance.Name = NameText.text;
+            SceneManager.LoadScene("main", LoadSceneMode.Single); 
+        }
     }
 }
